@@ -1,0 +1,22 @@
+{
+  "name": "your-project",
+  "version": "1.0.0",
+  "description": "Example integration of ccAutoRun",
+  "scripts": {
+    "docs:continue": "powershell -ExecutionPolicy Bypass -File ./.claude/hooks/auto-continue.ps1",
+    "docs:watch": "powershell -ExecutionPolicy Bypass -File ./.claude/hooks/auto-continue.ps1 -Watch",
+    "docs:reset": "powershell -ExecutionPolicy Bypass -File ./.claude/hooks/auto-continue.ps1 -Reset",
+    "docs:status": "powershell -ExecutionPolicy Bypass -File ./.claude/hooks/auto-continue.ps1 -Status",
+    "docs:test": "powershell -ExecutionPolicy Bypass -File ./.claude/hooks/test-system.ps1",
+    "docs:auto": "node scripts/docs-automation.mjs",
+    "docs:next": "node scripts/docs-automation.mjs next",
+    "docs:prompt": "node scripts/docs-automation.mjs prompt"
+  },
+  "keywords": [
+    "claude-code",
+    "automation",
+    "documentation",
+    "ccAutoRun"
+  ],
+  "license": "MIT"
+}

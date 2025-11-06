@@ -1,0 +1,46 @@
+# Lock files (state files)
+.claude/hooks/.auto-continue.lock
+.claude/hooks/.last-completed-count
+
+# Node modules
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Environment files (if users add them)
+.env
+.env.local
+.env.*.local
+
+# Build outputs (if users add build steps)
+dist/
+build/
+out/
+
+# Test coverage
+coverage/
+.nyc_output/
