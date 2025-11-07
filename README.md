@@ -1,342 +1,459 @@
-# 🤖 ccAutoRun - Claude Code Automation System
+# 🤖 ccAutoRun v2.0
 
+[![npm version](https://img.shields.io/npm/v/ccautorun.svg)](https://www.npmjs.com/package/ccautorun)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue.svg)](https://github.com/Octo-o-o-o/ccAutoRun)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-blue.svg)](https://github.com/yourusername/ccautorun)
 
-**Achieve 92% automation for batch processing tasks in Claude Code!**
+**An AI-powered task automation tool for Claude Code that turns complex development tasks into self-executing workflows.**
 
-A powerful automation system that enables Claude Code to automatically continue processing tasks in batches, with intelligent safety limits and real-time monitoring.
+ccAutoRun v2.0 transforms Claude Code from an interactive assistant into a fully automated task executor. Generate intelligent execution plans with AI, then let the system automatically execute them stage-by-stage—while you focus on more important work.
 
-## 🎯 What is ccAutoRun?
+---
 
-ccAutoRun solves a critical problem: **how to automate long-running tasks in Claude Code without constant manual supervision**.
+## ✨ What Makes v2.0 Special?
 
-Instead of manually checking every 30-60 minutes to continue the next batch, ccAutoRun:
-- ✅ Automatically continues to the next batch using `/clear` command
-- ✅ Runs 3 consecutive batches (safety limit)
-- ✅ Notifies you when it's time to review
-- ✅ Provides desktop notifications and sound alerts
-- ✅ Reduces manual intervention to < 1 hour for multi-day projects
+### 🤖 AI-Generated Execution Plans
+- Claude generates **complete, structured execution plans** for your tasks
+- Automatic architecture selection (split or single-file) based on complexity
+- Built-in validation ensures plan quality and efficiency
+- No more manually breaking down complex tasks
 
-**Automation Level: 92%** 🎉
+![Demo: AI Plan Generation](docs/assets/demo-plan-generation.gif)
+<!-- TODO: Record GIF showing /plan command generating a multi-stage plan -->
 
-## 🚀 Quick Start
+### 🔄 True Zero-Intervention Automation
+- Hook-based auto-continuation—moves to next stage automatically
+- No manual `/clear` commands or copy-pasting needed
+- Safety limits prevent runaway execution
+- Pause/resume support for graceful interruption
+
+![Demo: Auto-Continue in Action](docs/assets/demo-auto-continue.gif)
+<!-- TODO: Record GIF showing automatic stage progression -->
+
+### 📊 Intelligent Architecture Choice
+- **Split Architecture**: For complex tasks (>3 stages, >2500 lines)
+  - Loads only current stage → 90%+ token savings
+  - Each stage in separate file for clarity
+- **Single-File Architecture**: For simple tasks (≤3 stages, <2500 lines)
+  - Everything in one EXECUTION_PLAN.md
+  - Quick to generate and execute
+- **Auto-Select**: AI chooses the best architecture, or you can force one
+
+![Demo: Architecture Selection](docs/assets/demo-architecture-choice.gif)
+<!-- TODO: Record GIF showing architecture choice options -->
+
+### 🛡️ Production-Ready Safety
+- **Sandbox mode**: File access and command execution limits
+- **Safety limiter**: Configurable stage limits before manual review
+- **Snapshot system**: Automatic backups before each stage
+- **Error recovery**: Retry/skip/rollback options when things go wrong
+- **Audit logging**: Track all operations for security compliance
+
+---
+
+## 🚀 Quick Start (5 Minutes)
 
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/Octo-o-o-o/ccAutoRun.git
-
-# Copy files to your project
-cp -r ccAutoRun/.claude /your/project/
-cp -r ccAutoRun/scripts /your/project/
-
-# For Windows users
-# Just copy the .claude folder to your project root
+npm install -g ccautorun
 ```
 
-### Usage (3 Steps)
-
-**Step 1:** Configure your task in `.claude/commands/continue-docs.md` (or rename/customize it)
-
-**Step 2:** Reset the session counter
-```powershell
-# Windows
-.\.claude\hooks\auto-continue.ps1 -Reset
-
-# Unix/Linux/macOS
-bash .claude/hooks/check-and-continue.sh --reset
-```
-
-**Step 3:** Start auto-run in Claude Code
-```
-/continue-docs
-```
-
-That's it! The system will:
-1. Complete batch 1 → Auto `/clear` → Auto continue
-2. Complete batch 2 → Auto `/clear` → Auto continue
-3. Complete batch 3 → Pause for your review
-
-## 🎬 How It Works
-
-### Auto-Loop Mechanism
-
-```
-You type once: /continue-docs
-    ↓
-[Batch 1] Auto-complete → Auto output /clear + /continue-docs
-    ↓
-[Batch 2] Auto-complete → Auto output /clear + /continue-docs
-    ↓
-[Batch 3] Auto-complete → Reach safety limit → Pause
-    ↓
-⚠️ Prompt: Please review, then run /clear + /continue-docs
-    ↓
-You: Review 10 min + Reset counter
-    ↓
-Repeat until all done! 🎊
-```
-
-### Core Innovation: `/clear` Command Loop
-
-The system leverages Claude Code's `/clear` command to:
-- Reset context between batches
-- Maintain consistent quality
-- Enable true automatic looping
-- Prevent context pollution
-
-## 📊 Efficiency Gains
-
-| Method | Total Time | Manual Time | Automation |
-|--------|------------|-------------|------------|
-| Pure Manual | 12-15h | 12-15h | 0% |
-| Script-Assisted | 10-12h | 2-3h | 75% |
-| Hooks + Monitoring | 10-12h | 1-2h | 85% |
-| **ccAutoRun** | **10-12h** | **< 1h** | **92%** |
-
-For a 140-task project:
-- **Before:** 12-15 hours of manual work
-- **After:** < 1 hour of manual work (just reviews)
-- **Savings:** 92% time reduction!
-
-## ✨ Key Features
-
-### 1. Intelligent Auto-Continuation
-- Automatically loops through batches using `/clear`
-- No manual intervention between batches
-- Seamless context reset
-
-### 2. Safety Mechanism
-- 3-batch safety limit (configurable)
-- Prevents infinite loops
-- Forces quality review every 21 tasks
-- Stored in `.claude/hooks/.auto-continue.lock`
-
-### 3. Real-Time Monitoring (Optional)
-- Desktop notifications when batch completes
-- Sound alerts
-- Background monitoring mode
-- Progress tracking
-
-### 4. Cross-Platform Support
-- **Windows:** PowerShell scripts
-- **Unix/Linux/macOS:** Bash scripts
-- Consistent functionality across platforms
-
-### 5. Comprehensive Documentation
-- 20,000+ words of detailed guides
-- Quick start tutorials
-- Troubleshooting guides
-- Best practices
-
-## 📋 Project Structure
-
-```
-ccAutoRun/
-├── .claude/
-│   ├── commands/
-│   │   └── continue-docs.md        # Slash command with auto-loop logic
-│   └── hooks/
-│       ├── auto-continue.ps1       # Main script (Windows)
-│       ├── watch-and-notify.ps1    # Monitoring script (Windows)
-│       ├── check-and-continue.sh   # Main script (Unix)
-│       ├── watch-and-notify.sh     # Monitoring script (Unix)
-│       ├── test-system.ps1         # System test script
-│       └── README.md               # Hooks technical documentation
-├── scripts/
-│   └── docs-automation.mjs         # Node.js progress management
-├── docs/
-│   ├── FULL_AUTO_MODE.md          # Complete auto mode guide
-│   ├── QUICKSTART_HOOKS.md        # Quick start guide
-│   ├── AUTOMATION_GUIDE.md        # Comprehensive automation guide
-│   ├── AUTOMATION_INDEX.md        # Documentation index
-│   └── README_AUTOMATION.md       # Quick reference
-├── examples/
-│   └── package.json               # Example npm integration
-├── README.md                       # This file
-├── LICENSE                         # MIT License
-└── .gitignore
-```
-
-## 🎯 Use Cases
-
-### 1. Documentation Generation
-Generate hundreds of pages of technical documentation with minimal manual intervention.
-
-### 2. Code Refactoring
-Systematically refactor large codebases across multiple files.
-
-### 3. Test Writing
-Automatically generate comprehensive test suites.
-
-### 4. Data Processing
-Process large datasets in batches with Claude Code.
-
-### 5. Content Creation
-Generate multiple articles, tutorials, or guides.
-
-## 🛠️ Command Reference
-
-### Windows (PowerShell)
-
-```powershell
-# Main automation script
-.\.claude\hooks\auto-continue.ps1           # Interactive mode
-.\.claude\hooks\auto-continue.ps1 -Watch    # Background monitoring
-.\.claude\hooks\auto-continue.ps1 -Status   # Quick status check
-.\.claude\hooks\auto-continue.ps1 -Reset    # Reset session counter
-.\.claude\hooks\auto-continue.ps1 -Pause    # Pause auto-continue
-
-# Test the system
-.\.claude\hooks\test-system.ps1
-```
-
-### Unix/Linux/macOS (Bash)
+### First-Time Setup
 
 ```bash
-# Main automation script
-bash .claude/hooks/check-and-continue.sh           # Interactive mode
-bash .claude/hooks/check-and-continue.sh --auto    # Auto mode
-bash .claude/hooks/check-and-continue.sh --reset   # Reset counter
-bash .claude/hooks/check-and-continue.sh --status  # Status check
+# Initialize in your project
+cd /path/to/your/project
+ccautorun init --setup-hooks
 
-# Background monitoring
-bash .claude/hooks/watch-and-notify.sh
+# This will:
+# ✓ Create .ccautorun/ directory
+# ✓ Configure Claude Code hooks
+# ✓ Set up default configuration
+# ✓ You're ready to go!
 ```
 
-### Claude Code
+### Generate Your First Plan
+
+In Claude Code, use the `/plan` slash command:
 
 ```
-# The most important command!
-/continue-docs
+/plan I need to refactor the authentication module to use JWT tokens instead of sessions
 ```
+
+Claude will:
+1. Analyze your codebase
+2. Generate a multi-stage execution plan
+3. Choose the optimal architecture
+4. Save the plan to `.ccautorun/plans/`
+
+### Execute the Plan
+
+Claude will automatically start executing the plan. The system will:
+- ✅ Execute Stage 1
+- ✅ Auto-continue to Stage 2
+- ✅ Auto-continue to Stage 3
+- ⏸️ Pause at safety limit for your review
+
+You'll get desktop notifications at key milestones!
+
+---
+
+## 🎯 Core Features
+
+### For Users
+- **📋 Task Templates**: Quick-start with pre-built templates (refactor, feature, bugfix, docs)
+- **🔔 Desktop Notifications**: Stay informed without constant monitoring
+- **📊 Real-Time Progress**: Watch mode with progress bars and ETA
+- **🩺 Smart Diagnostics**: `doctor` command checks environment and troubleshoots issues
+- **📝 Rich Logging**: Detailed logs with rotation and easy access
+
+### For Power Users
+- **⚡ Manual Triggers**: Override auto-continue with `trigger` command
+- **🔄 Pause/Resume**: Gracefully interrupt and continue later
+- **↩️ Error Recovery**: Retry failed stages or rollback to snapshots
+- **⏭️ Stage Control**: Skip stages or jump to specific points
+- **📈 Statistics**: Track execution time, success rates, and efficiency
+
+### For Teams
+- **🔒 Security Audit**: Full audit trail of all operations
+- **📋 Configuration Management**: Centralized config with validation
+- **🔄 Version Migration**: Smooth upgrades with `migrate` command
+- **🗂️ Archive System**: Organize completed plans
+
+---
 
 ## 📖 Documentation
 
-Comprehensive documentation is available in the `docs/` directory:
+- **[Quick Start Guide](docs/QUICK_START.md)** - Get up and running in 10 minutes
+- **[User Guide](docs/GUIDE.md)** - Complete command reference and workflows
+- **[Task Templates](docs/TEMPLATES.md)** - Pre-built templates for common tasks
+- **[FAQ](docs/FAQ.md)** - Common questions and answers
+- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Solve common issues
+- **[Architecture Docs](docs/architecture/)** - Deep dives into design decisions
 
-- **[Quick Start](docs/QUICKSTART_HOOKS.md)** - Get started in 10 minutes
-- **[Full Auto Mode](docs/FULL_AUTO_MODE.md)** - Deep dive into automation
-- **[Automation Guide](docs/AUTOMATION_GUIDE.md)** - Complete reference
-- **[Documentation Index](docs/AUTOMATION_INDEX.md)** - Navigate all docs
+---
 
-## 🔧 Configuration
+## 🎨 Use Cases
 
-### Adjust Batch Limit
+### 1. Large-Scale Refactoring
+```
+/plan Refactor the entire API layer to use TypeScript decorators for validation
+```
+- Auto-generates 7-stage plan
+- Executes methodically file-by-file
+- Creates snapshots before each stage
+- Handles errors gracefully
 
-Edit `.claude/commands/continue-docs.md`:
+### 2. Feature Development
+```
+/plan Implement user profile page with avatar upload, bio editing, and activity feed
+```
+- Breaks down into UI, backend, tests
+- Creates comprehensive plan
+- Executes with validation at each step
 
-```markdown
-# Find this line:
-**ELSE IF session count >= 3:**
+### 3. Documentation Generation
+```
+/plan --template docs Generate API documentation for all /api endpoints
+```
+- Uses pre-built template
+- Fast generation and execution
+- Consistent formatting
 
-# Change to:
-**ELSE IF session count >= 5:**  # More aggressive (5 batches)
-**ELSE IF session count >= 1:**  # More conservative (review every batch)
+### 4. Bug Fixes with Tests
+```
+/plan Fix the race condition in user session handling and add regression tests
+```
+- Identifies root cause
+- Implements fix
+- Adds comprehensive tests
+- Validates fix
+
+---
+
+## 🔧 Command Reference
+
+### Essential Commands
+
+```bash
+# Initialize project
+ccautorun init [--setup-hooks] [--enable-hooks]
+
+# List all plans
+ccautorun list [--status <status>]
+
+# Check plan status
+ccautorun status [plan-id]
+
+# Validate plan quality
+ccautorun validate <plan-id>
+
+# Watch real-time progress
+ccautorun watch <plan-id>
+
+# View logs
+ccautorun logs [plan-id] [--tail] [-f]
 ```
 
-**Recommended:** Keep default of 3 batches
+### Control Commands
 
-### Customize for Your Task
+```bash
+# Pause auto-continuation
+ccautorun pause [plan-id]
 
-The provided `continue-docs.md` is an example for documentation generation. To customize:
+# Resume auto-continuation
+ccautorun resume [plan-id]
 
-1. Copy `.claude/commands/continue-docs.md` to your own command name
-2. Edit the instructions to match your task
-3. Keep the "Auto-Continuation Logic" section intact
-4. Adjust batch size guidelines as needed
+# Skip a stage
+ccautorun skip <plan-id> <stage-number>
 
-## 🛡️ Safety Features
+# Retry failed stage
+ccautorun retry <plan-id> [stage-number]
 
-### 1. Session Counter
-Tracks how many consecutive batches have run without manual review.
+# Manually trigger next stage
+ccautorun trigger <plan-id>
 
-### 2. Safety Limit
-Automatically pauses after 3 batches (default) to force quality review.
-
-### 3. Lock File
-Stores state in `.claude/hooks/.auto-continue.lock` to prevent race conditions.
-
-### 4. Clear Instructions
-Provides explicit next steps when safety limit is reached.
-
-## 💡 Best Practices
-
-1. **Use monitoring mode** for the best experience
-2. **Review regularly** - Every 3 batches (21 tasks)
-3. **Keep default limit** - 3 batches is optimal
-4. **Commit frequently** - After each review session
-5. **Multi-window layout** - Claude Code + Terminal + Editor + Browser
-
-## 🐛 Troubleshooting
-
-### Issue: Auto-loop not working
-
-**Solution:** Check that:
-1. You're using the latest `continue-docs.md` with auto-loop logic
-2. The lock file exists and has correct permissions
-3. There are still incomplete tasks remaining
-
-### Issue: Desktop notifications not showing
-
-**Solution (Windows):**
-1. Enable notifications in Windows Settings
-2. Turn off Focus Assist
-3. Run PowerShell as administrator (if needed)
-
-### Issue: Infinite loop
-
-**Solution:**
-```powershell
-# Emergency pause
-.\.claude\hooks\auto-continue.ps1 -Pause
+# Recover from errors
+ccautorun recover <plan-id>
 ```
+
+### Management Commands
+
+```bash
+# Diagnose issues
+ccautorun doctor
+
+# Manage configuration
+ccautorun config [--get <key>] [--set <key> <value>] [--list]
+
+# View statistics
+ccautorun stats [plan-id]
+
+# Archive completed plans
+ccautorun archive <plan-id>
+
+# Migrate configuration
+ccautorun migrate
+
+# Security audit
+ccautorun audit [--check-deps] [--check-files] [--check-config]
+```
+
+### Slash Commands (in Claude Code)
+
+```
+# Generate a plan (AI automatically chooses architecture)
+/plan <task description>
+
+# Force split architecture (for complex tasks)
+/plan --force-split <task description>
+
+# Force single-file architecture (for simple tasks)
+/plan --force-single <task description>
+
+# Use a template
+/plan --template refactor <task description>
+/plan --template feature <task description>
+/plan --template bugfix <task description>
+/plan --template docs <task description>
+```
+
+---
+
+## 🏗️ Architecture Decision Guide
+
+### When to Use Split Architecture
+
+**Best for:**
+- Complex multi-stage tasks (4+ stages)
+- Large codebases (>10,000 lines)
+- Tasks requiring detailed planning
+- Long-running refactors
+
+**Benefits:**
+- 90%+ token savings (loads only current stage)
+- Better organization (one file per stage)
+- Easier to review and modify
+- Scales to 20+ stages easily
+
+**Example:** Refactoring authentication system, migrating to new framework
+
+### When to Use Single-File Architecture
+
+**Best for:**
+- Simple tasks (≤3 stages)
+- Quick fixes or updates
+- Focused, well-defined tasks
+- Small scope changes
+
+**Benefits:**
+- Faster to generate
+- Easier overview of entire plan
+- Less file management
+- Quick to modify
+
+**Example:** Updating config file, fixing a specific bug, generating simple docs
+
+### Auto-Select (Recommended)
+
+Let Claude choose the best architecture:
+
+```
+/plan <your task>
+```
+
+Claude analyzes:
+- Task complexity
+- Estimated LOC
+- Number of stages needed
+- Your project size
+
+And automatically picks the optimal architecture!
+
+---
+
+## 🛡️ Security & Safety
+
+### Sandbox Mode (Default)
+
+- **File Access Control**: Restricts access to project directory only
+- **Command Whitelist**: Only safe commands (git, npm, node) allowed
+- **Sensitive File Protection**: Auto-excludes .env, credentials, keys
+- **Audit Logging**: All operations logged for review
+
+### Safety Limits
+
+- **Stage Limit**: Pauses after N stages (default: 3) for manual review
+- **Execution Timeout**: Prevents hanging stages
+- **Snapshot Backups**: Auto-backup before each stage
+- **Error Detection**: Stops on critical failures
+
+### Dangerous Mode
+
+For advanced users who need unrestricted access:
+
+```bash
+# Use with caution!
+ccautorun init --dangerously-skip-permissions
+```
+
+⚠️ **Warning**: Only use with plans you fully trust!
+
+---
+
+## 🧪 Testing
+
+ccAutoRun v2.0 has comprehensive test coverage:
+
+```bash
+# Run all tests
+npm test
+
+# Run specific test suites
+npm run test:unit          # Unit tests (51+ cases)
+npm run test:integration   # Integration tests (36+ cases)
+npm run test:e2e          # End-to-end tests (3+ cases)
+
+# Watch mode
+npm run test:watch
+
+# Coverage report
+npm run test:coverage      # 73%+ coverage
+```
+
+---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ### Development Setup
 
 ```bash
-git clone https://github.com/Octo-o-o-o/ccAutoRun.git
-cd ccAutoRun
+git clone https://github.com/yourusername/ccautorun.git
+cd ccautorun
+npm install
+npm test
 
-# Test the system
-powershell -ExecutionPolicy Bypass -File .claude/hooks/test-system.ps1
+# Run in development
+npm link
+ccautorun --version
 ```
 
-### Guidelines
+### Running Tests
 
-- Follow existing code style
-- Update documentation for new features
-- Test on multiple platforms when possible
-- Add examples for new use cases
+```bash
+npm test                    # Run all tests
+npm run test:watch         # Watch mode
+npm run test:coverage      # Generate coverage report
+```
+
+---
 
 ## 📄 License
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
+---
+
 ## 🙏 Acknowledgments
 
 - Built for [Claude Code](https://claude.ai/code) by Anthropic
-- Inspired by the need for better automation in AI-assisted development
-- Community feedback and testing
+- Inspired by the need for intelligent automation in AI-assisted development
+- Thanks to the community for feedback and testing
+
+---
 
 ## 📞 Support
 
-- **Issues:** [GitHub Issues](https://github.com/Octo-o-o-o/ccAutoRun/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/Octo-o-o-o/ccAutoRun/discussions)
-- **Documentation:** See `docs/` directory
+- **Documentation**: [docs/](docs/)
+- **Issues**: [GitHub Issues](https://github.com/yourusername/ccautorun/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/ccautorun/discussions)
 
-## 🌟 Star History
+---
 
-If you find this project useful, please consider giving it a star! ⭐
+## 🌟 What's New in v2.0?
+
+### vs v1.0 (PowerShell/Bash Scripts)
+
+- ✅ **Pure Node.js**: True cross-platform consistency
+- ✅ **AI Plan Generation**: No more manual plan writing
+- ✅ **Dual Architecture**: Automatic or manual choice
+- ✅ **Rich CLI**: 15+ commands for full control
+- ✅ **Error Recovery**: Retry, skip, or rollback
+- ✅ **Production Ready**: 95+ tests, 73%+ coverage
+- ✅ **Better UX**: Progress bars, notifications, real-time monitoring
+
+### Key Improvements
+
+| Feature | v1.0 | v2.0 |
+|---------|------|------|
+| Plan Generation | Manual | AI-Generated |
+| Architecture | Single only | Dual (split/single) |
+| Cross-Platform | Scripts (PS/Bash) | Pure Node.js |
+| Commands | 3 | 15+ |
+| Error Handling | Basic | Advanced (retry/rollback) |
+| Testing | None | 95+ tests, 73% coverage |
+| Real-Time Monitoring | No | Yes (watch command) |
+| Configuration | Manual | Validated YAML |
+
+---
+
+## 🗺️ Roadmap
+
+### v2.1 (Future)
+
+- **Multi-Task Parallel Execution**: Run multiple plans simultaneously
+- **Plugin System**: Extend with custom hooks and integrations
+- **Cloud Sync**: Backup and share plans across devices
+- **Web Dashboard**: Visual progress tracking and plan management
+- **Team Collaboration**: Shared plans and execution
 
 ---
 
 **Made with ❤️ for the Claude Code community**
 
-**Achieve 92% automation and save hours of manual work!** 🚀
+**Transform complex tasks into self-executing workflows!** 🚀
+

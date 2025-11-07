@@ -1,7 +1,7 @@
 {
   "name": "ccautorun",
   "version": "2.0.0",
-  "description": "Cross-platform intelligent automation tool powered by Claude Code",
+  "description": "AI-powered task automation for Claude Code - Transform complex development tasks into self-executing workflows",
   "type": "module",
   "main": "src/cli.js",
   "bin": {
@@ -18,17 +18,36 @@
     "test:performance": "vitest run tests/performance",
     "test:all": "vitest run && npm run test:e2e && npm run test:performance",
     "lint": "eslint src/",
-    "prepare": "chmod +x bin/ccautorun.js"
+    "prepare": "chmod +x bin/ccautorun.js",
+    "prepublishOnly": "npm test && npm run lint"
   },
   "keywords": [
     "automation",
     "ai",
     "claude",
-    "task-runner",
+    "claude-code",
+    "task-automation",
     "workflow",
-    "cli"
+    "cli",
+    "developer-tools",
+    "ai-tools",
+    "productivity",
+    "task-runner",
+    "execution-plan",
+    "cross-platform",
+    "devops",
+    "ci-cd"
   ],
-  "author": "ccAutoRun Team",
+  "author": {
+    "name": "ccAutoRun Team",
+    "url": "https://github.com/yourusername/ccautorun"
+  },
+  "contributors": [
+    {
+      "name": "Community Contributors",
+      "url": "https://github.com/yourusername/ccautorun/graphs/contributors"
+    }
+  ],
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0",
@@ -54,10 +73,33 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/ccautorun.git"
+    "url": "git+https://github.com/yourusername/ccautorun.git"
   },
   "bugs": {
     "url": "https://github.com/yourusername/ccautorun/issues"
   },
-  "homepage": "https://github.com/yourusername/ccautorun#readme"
+  "homepage": "https://github.com/yourusername/ccautorun#readme",
+  "files": [
+    "src/",
+    "bin/",
+    "templates/",
+    "README.md",
+    "README_CN.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "docs/QUICKSTART.md",
+    "docs/GUIDE.md",
+    "docs/TEMPLATES.md",
+    "docs/FAQ.md",
+    "docs/TROUBLESHOOTING.md",
+    "docs/EXAMPLES.md",
+    "docs/TESTING.md"
+  ],
+  "preferGlobal": true,
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ]
 }

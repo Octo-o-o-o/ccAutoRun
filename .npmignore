@@ -1,0 +1,114 @@
+# NPM Ignore File for ccAutoRun v2.0
+# This file specifies which files should NOT be published to npm
+
+# Development files
+*.log
+*.tmp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Test files
+tests/
+coverage/
+*.test.js
+*.spec.js
+.nyc_output/
+vitest.config.js
+
+# Documentation (except main README)
+docs/stages/
+docs/architecture/
+docs/assets/*.gif
+PLAN_*.md
+EXECUTION_PLAN.md
+EXECUTION_PLAN.md.backup
+STAGE_*.md
+PROJECT_SUMMARY.md
+PLAN_UPDATES.md
+
+# Examples (keep for reference, but exclude internal examples)
+examples/*/node_modules/
+examples/*/.ccautorun/
+
+# Git and CI files
+.git/
+.gitignore
+.gitattributes
+.github/workflows/
+.github/ISSUE_TEMPLATE/
+.github/PULL_REQUEST_TEMPLATE/
+
+# Backup files
+backup/
+*.backup
+*.bak
+*.old
+
+# Runtime data
+.ccautorun/
+*.lock
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Editor configs
+.vscode/
+.idea/
+*.sublime-*
+.editorconfig
+
+# Build artifacts (if any)
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Security
+.env
+.env.local
+.env.*
+*.pem
+*.key
+*.cert
+credentials.json
+secrets.yaml
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Misc
+TODO.md
+NOTES.md
+SECURITY.md
+
+# Include these important files (override above patterns)
+!README.md
+!README_CN.md
+!LICENSE
+!CHANGELOG.md
+!CONTRIBUTING.md
+!package.json
+!package-lock.json
+
+# Include source code
+!src/**
+!bin/**
+
+# Include essential docs
+!docs/QUICKSTART.md
+!docs/GUIDE.md
+!docs/TEMPLATES.md
+!docs/FAQ.md
+!docs/TROUBLESHOOTING.md
+!docs/EXAMPLES.md
+!docs/TESTING.md
+
+# Include templates for users
+!templates/**
