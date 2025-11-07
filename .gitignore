@@ -44,3 +44,10 @@ out/
 # Test coverage
 coverage/
 .nyc_output/
+
+# ccAutoRun data directories
+.ccautorun/
+!.ccautorun/.gitkeep
+
+# Backup directory
+backup/
