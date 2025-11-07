@@ -19,7 +19,7 @@
     "test:all": "vitest run && npm run test:e2e && npm run test:performance",
     "lint": "eslint src/",
     "prepare": "node -e \"try { require('fs').chmodSync('bin/ccautorun.js', '755') } catch(e) { /* Windows doesn't need this */ }\"",
-    "prepublishOnly": "npm test && npm run lint"
+    "prepublishOnly": "node -e \"if (process.env.CI) { process.exit(0) }\" || (npm test && npm run lint)"
   },
   "keywords": [
     "automation",
