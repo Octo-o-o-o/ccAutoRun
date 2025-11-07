@@ -8,9 +8,10 @@
     "ccautorun": "./bin/ccautorun.js"
   },
   "scripts": {
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint src/",
     "prepare": "chmod +x bin/ccautorun.js"
   },
