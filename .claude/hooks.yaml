@@ -1,28 +1,12 @@
-# ccAutoRun Claude Code Hooks Configuration
-#
-# This file configures automatic stage continuation for ccAutoRun
-# See: https://docs.claude.com/docs/claude-code/hooks
-
 hooks:
-  # Auto-continue hook - triggered when Claude Code stops
   - event: Stop
     command: node src/hooks/auto-continue.js
     description: Auto-continue to next stage when current stage completes
-    enabled: false  # Default disabled - enable manually after setup
-
-  # Future hooks can be added here
-  # - event: Start
-  #   command: node src/hooks/on-start.js
-  #   description: Hook triggered when Claude Code starts
-  #   enabled: false
-
-# Configuration notes:
-# 1. Set enabled: true to activate the auto-continue hook
-# 2. Ensure node_modules are installed: npm install
-# 3. Test the hook with: echo '{"session_id":"test","transcript_path":"/tmp/test.txt","cwd":"'$(pwd)'"}' | node src/hooks/auto-continue.js
-# 4. The hook reads plan files and automatically continues to the next stage
-# 5. Supports both single-file and split architecture plans
-# 6. Uses three-tier fallback strategy for stage completion detection:
-#    - Transcript marker: [STAGE_COMPLETE:N]
-#    - Standalone marker file: .ccautorun/sessions/<task>.stage-complete
-#    - File modification time (fallback)
+    enabled: false
+user-prompt-submit:
+  command: node
+  args:
+    - .ccautorun/hooks/auto-continue.js
+  enabled: false
+  background: false
+  timeout: 30000

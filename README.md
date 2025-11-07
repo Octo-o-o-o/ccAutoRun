@@ -236,10 +236,21 @@ You'll get desktop notifications at key milestones!
 
 ## 📖 Documentation
 
-- **[Quick Start Guide](docs/QUICK_START.md)** - Get up and running in 10 minutes
-- **[User Guide](docs/GUIDE.md)** - Complete command reference and workflows
+**📚 [Complete Documentation](docs/README.md)** | **🇨🇳 [中文文档](docs/README_CN.md)**
+
+### Quick Start
+- **[Getting Started](docs/GETTING_STARTED.md)** - 5-minute quick start guide ([中文](docs/GETTING_STARTED_CN.md))
+- **[Quick Start Guide](docs/QUICK_START.md)** - Detailed 10-minute walkthrough
+
+### Core Documentation
+- **[Core Concepts](docs/CORE_CONCEPTS.md)** - Understand execution plans, architectures, and workflows ([中文](docs/CORE_CONCEPTS_CN.md))
+- **[Command Reference](docs/COMMAND_REFERENCE.md)** - Complete list of all commands ([中文](docs/COMMAND_REFERENCE_CN.md))
+- **[Configuration Guide](docs/CONFIGURATION.md)** - Customize ccAutoRun behavior ([中文](docs/CONFIGURATION_CN.md))
+- **[Best Practices](docs/BEST_PRACTICES.md)** - Tips for effective usage ([中文](docs/BEST_PRACTICES_CN.md))
+
+### Additional Resources
 - **[Task Templates](docs/TEMPLATES.md)** - Pre-built templates for common tasks
-- **[FAQ](docs/FAQ.md)** - Common questions and answers
+- **[FAQ](docs/FAQ.md)** - 26 common questions answered
 - **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Solve common issues
 - **[Architecture Docs](docs/architecture/)** - Deep dives into design decisions
 
