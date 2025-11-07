@@ -21,8 +21,13 @@ import { stats } from './commands/stats.js';
 import { triggerCommand } from './commands/trigger.js';
 import { resetCommand } from './commands/reset.js';
 import { validate } from './commands/validate.js';
+import { watchCommand } from './commands/watch.js';
+import { migrate } from './commands/migrate.js';
+import { archive } from './commands/archive.js';
 import { initLogger } from './utils/logger.js';
 import { ErrorHandler } from './utils/error-handler.js';
+import { Config } from './utils/config.js';
+import { ConfigValidator } from './utils/config-validator.js';
 import { readFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -36,6 +41,39 @@ const packageJson = JSON.parse(
 );
 
 const program = new Command();
+
+/**
+ * Check configuration version and prompt migration if needed
+ */
+async function checkConfigVersion() {
+  try {
+    const config = new Config();
+    const isInitialized = await config.isInitialized();
+
+    if (!isInitialized) {
+      // No config yet, skip version check
+      return;
+    }
+
+    const { config: currentConfig } = await config.loadOrDefault();
+    const validator = new ConfigValidator();
+
+    if (validator.needsMigration(currentConfig)) {
+      const currentVersion = currentConfig.version || '1.0.0';
+      console.log(chalk.yellow('\n  ⚠  Configuration version mismatch detected'));
+      console.log(chalk.gray(`      Current: v${currentVersion}`));
+      console.log(chalk.gray(`      Expected: v2.0.0\n`));
+      console.log(chalk.cyan('      Run "ccautorun migrate" to update your configuration.\n'));
+      // Don't block execution - just warn
+    }
+  } catch (error) {
+    // Silently fail - don't block CLI startup
+    // Only log in debug mode
+    if (process.env.DEBUG) {
+      console.error('Version check failed:', error);
+    }
+  }
+}
 
 export default async function main() {
   // Setup program
@@ -164,6 +202,24 @@ export default async function main() {
       }
     });
 
+  // Migrate command
+  program
+    .command('migrate')
+    .description('Migrate configuration from older versions')
+    .option('--dry-run', 'Preview migration without applying changes')
+    .action(async (options) => {
+      try {
+        const globalOpts = program.opts();
+        await migrate({ ...options, dryRun: options.dryRun || globalOpts.dryRun });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'migrate',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
   // Pause command
   program
     .command('pause')
@@ -215,6 +271,28 @@ export default async function main() {
       } catch (error) {
         const exitCode = ErrorHandler.handle(error, {
           command: 'logs',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
+  // Watch command
+  program
+    .command('watch')
+    .description('Watch task progress in real-time')
+    .argument('<task-name>', 'Name of the task to watch')
+    .option('-i, --interval <seconds>', 'Refresh interval in seconds', '2')
+    .option('--no-notify', 'Disable desktop notifications')
+    .action(async (taskName, options) => {
+      try {
+        await watchCommand(taskName, {
+          interval: parseInt(options.interval, 10),
+          notify: options.notify,
+        });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'watch',
           verbose: program.opts().verbose,
         });
         process.exit(exitCode);
@@ -339,6 +417,25 @@ export default async function main() {
       }
     });
 
+  // Archive command
+  program
+    .command('archive')
+    .description('Archive completed task')
+    .argument('<task-name>', 'Name of the task to archive')
+    .option('--dry-run', 'Preview archive without applying changes')
+    .action(async (taskName, options) => {
+      try {
+        const globalOpts = program.opts();
+        await archive(taskName, { ...options, dryRun: options.dryRun || globalOpts.dryRun });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'archive',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
   // Run command (placeholder for Stage 3)
   program
     .command('run')
@@ -348,6 +445,16 @@ export default async function main() {
     .action(async (planId, options) => {
       console.log(chalk.yellow('Run command - Will be implemented in Stage 3'));
     });
+
+  // Check configuration version before executing commands
+  // (Skip for init and migrate commands)
+  const args = process.argv.slice(2);
+  const command = args[0];
+  const skipVersionCheck = ['init', 'migrate', 'doctor', '--help', '-h', '--version', '-V'].includes(command);
+
+  if (!skipVersionCheck) {
+    await checkConfigVersion();
+  }
 
   // Parse arguments
   await program.parseAsync(process.argv);

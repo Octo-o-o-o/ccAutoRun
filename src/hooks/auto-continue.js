@@ -11,7 +11,6 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { exec } from 'child_process';
-import notifier from 'node-notifier';
 import {
   parsePlan,
   getNextStageFile,
@@ -26,6 +25,7 @@ import {
   incrementCount
 } from '../core/session-manager.js';
 import { checkLimit } from '../core/safety-limiter.js';
+import { getNotifier } from '../utils/notifier.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -232,15 +232,15 @@ function detectErrors(transcript) {
 }
 
 /**
- * Send desktop notification
+ * Get shared notifier instance
  */
-function sendNotification(title, message, sound = false) {
-  notifier.notify({
-    title: `ccAutoRun - ${title}`,
-    message,
-    sound: sound,
-    timeout: 5
-  });
+let notifierInstance = null;
+async function getNotifierInstance() {
+  if (!notifierInstance) {
+    notifierInstance = getNotifier();
+    await notifierInstance.init();
+  }
+  return notifierInstance;
 }
 
 /**
@@ -264,6 +264,9 @@ function executeClaude(command) {
 async function autoContinueHook() {
   try {
     console.log('[auto-continue] Hook started');
+
+    // Initialize notifier
+    const notifier = await getNotifierInstance();
 
     // Read hook data from stdin
     const hookData = await getHookData();
@@ -311,10 +314,9 @@ async function autoContinueHook() {
 
     if (!completion.detected) {
       console.log('[auto-continue] Stage completion not detected');
-      sendNotification(
-        'Manual Intervention Needed',
-        `Stage completion not detected for task "${taskName}". Please run "ccautorun trigger ${taskName}" to continue manually.`,
-        true
+      await notifier.notifyWarning(
+        taskName,
+        'Stage completion not detected. Please run "ccautorun trigger" to continue manually.'
       );
       return;
     }
@@ -340,17 +342,17 @@ async function autoContinueHook() {
     // Check if paused
     if (session.status === 'paused') {
       console.log('[auto-continue] Session is paused, skipping auto-continue');
-      sendNotification('Session Paused', `Task "${taskName}" is paused. Use "ccautorun resume" to continue.`);
+      await notifier.notifyWarning(taskName, 'Task is paused. Use "ccautorun resume" to continue.');
       return;
     }
 
     // Check if failed
     if (session.status === 'failed') {
       console.log('[auto-continue] Session is in failed state, skipping auto-continue');
-      sendNotification(
-        'Session Failed',
-        `Task "${taskName}" failed. Use "ccautorun recover" or "ccautorun retry" to fix.`,
-        true
+      await notifier.notifyError(
+        taskName,
+        'Task failed',
+        'Use "ccautorun recover" or "ccautorun retry" to fix'
       );
       return;
     }
@@ -361,7 +363,7 @@ async function autoContinueHook() {
     if (errorCheck.hasError) {
       console.error(`[auto-continue] Error detected: ${errorCheck.match}`);
       setStatus(taskName, 'failed', errorCheck.match);
-      sendNotification('Execution Failed', `Error detected in task "${taskName}": ${errorCheck.match}`, true);
+      await notifier.notifyError(taskName, `Error detected: ${errorCheck.match}`);
       return;
     }
 
@@ -372,7 +374,7 @@ async function autoContinueHook() {
     } catch (error) {
       console.error('[auto-continue] Failed to parse plan:', error.message);
       setStatus(taskName, 'failed', `Failed to parse plan: ${error.message}`);
-      sendNotification('Plan Parse Error', error.message, true);
+      await notifier.notifyError(taskName, 'Plan parse error', error.message);
       return;
     }
 
@@ -392,7 +394,7 @@ async function autoContinueHook() {
     if (!limitCheck.shouldContinue) {
       console.log(`[auto-continue] ${limitCheck.message}`);
       setStatus(taskName, 'paused', limitCheck.message);
-      sendNotification('Safety Limit Reached', limitCheck.message, true);
+      await notifier.notifyWarning(taskName, `Safety limit reached: ${limitCheck.message}`);
       return;
     }
 
@@ -400,7 +402,10 @@ async function autoContinueHook() {
     if (currentStage >= totalStages) {
       console.log('[auto-continue] All stages completed');
       setStatus(taskName, 'completed');
-      sendNotification('Task Completed', `All stages completed for task "${taskName}"`, true);
+      await notifier.notifyComplete(taskName, {
+        stages: totalStages,
+        success: true
+      });
       return;
     }
 
@@ -413,10 +418,10 @@ async function autoContinueHook() {
     } catch (error) {
       console.error('[auto-continue] Failed to update progress:', error.message);
       setStatus(taskName, 'failed', `Failed to update progress: ${error.message}`);
-      sendNotification(
-        'Progress Update Failed',
-        `Failed to update progress. Please run "ccautorun doctor" to diagnose. Error: ${error.message}`,
-        true
+      await notifier.notifyError(
+        taskName,
+        'Progress update failed',
+        'Please run "ccautorun doctor" to diagnose'
       );
       return;
     }
@@ -427,7 +432,7 @@ async function autoContinueHook() {
     if (!nextStageFile) {
       console.error('[auto-continue] Next stage file not found');
       setStatus(taskName, 'failed', 'Next stage file not found');
-      sendNotification('Next Stage Not Found', 'Please check your plan structure', true);
+      await notifier.notifyError(taskName, 'Next stage not found', 'Please check your plan structure');
       return;
     }
 
@@ -452,6 +457,11 @@ async function autoContinueHook() {
 
     console.log(`[auto-continue] Executing: ${claudeCommand}`);
 
+    // Send stage complete notification (based on frequency)
+    if (notifier.shouldNotifyProgress(currentStage)) {
+      await notifier.notifyStageComplete(taskName, currentStage, totalStages);
+    }
+
     // Execute asynchronously (don't wait)
     exec(claudeCommand, (error, stdout, stderr) => {
       if (error) {
@@ -461,13 +471,16 @@ async function autoContinueHook() {
       }
     });
 
-    // Send notification
-    sendNotification('Stage Completed', `Stage ${currentStage}/${totalStages} completed. Starting stage ${nextStage}...`);
+    // Send stage start notification (based on frequency)
+    if (notifier.shouldNotifyProgress(nextStage)) {
+      await notifier.notifyStageStart(taskName, nextStage);
+    }
 
     console.log('[auto-continue] Hook completed successfully');
   } catch (error) {
     console.error('[auto-continue] Hook error:', error);
-    sendNotification('Hook Error', error.message, true);
+    // Don't use notifier here in case it's the source of the error
+    console.error('Failed to send error notification');
   }
 }
 
