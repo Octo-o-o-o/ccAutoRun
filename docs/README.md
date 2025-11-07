@@ -1,4 +1,4 @@
-# ccAutoRun v2.0 Documentation
+# ccAutoRun v0.1.0 Documentation
 
 > Complete documentation for ccAutoRun - AI-powered task automation for Claude Code
 
@@ -107,7 +107,7 @@
 
 ## 📖 Documentation Roadmap
 
-### Current (v2.0)
+### Current (v0.1.0)
 
 - ✅ Getting Started Guide
 - ✅ Core Concepts
@@ -164,8 +164,8 @@ Found a typo or want to improve the docs? See [CONTRIBUTING.md](../CONTRIBUTING.
 
 ## 📞 Get Help
 
-- **Issues**: [Report a bug or request a feature](https://github.com/yourusername/ccautorun/issues)
-- **Discussions**: [Ask questions or share ideas](https://github.com/yourusername/ccautorun/discussions)
+- **Issues**: [Report a bug or request a feature](https://github.com/Octo-o-o-o/ccAutoRun/issues)
+- **Discussions**: [Ask questions or share ideas](https://github.com/Octo-o-o-o/ccAutoRun/discussions)
 - **Discord**: [Join our community](#) (Coming soon)
 
 ---

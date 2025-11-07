@@ -1,17 +1,17 @@
-# 🤖 ccAutoRun v2.0
+# 🤖 ccAutoRun v0.1.0
 
 [![npm version](https://img.shields.io/npm/v/ccautorun.svg)](https://www.npmjs.com/package/ccautorun)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org)
-[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-blue.svg)](https://github.com/yourusername/ccautorun)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-blue.svg)](https://github.com/Octo-o-o-o/ccAutoRun)
 
 **An AI-powered task automation tool for Claude Code that turns complex development tasks into self-executing workflows.**
 
-ccAutoRun v2.0 transforms Claude Code from an interactive assistant into a fully automated task executor. Generate intelligent execution plans with AI, then let the system automatically execute them stage-by-stage—while you focus on more important work.
+ccAutoRun v0.1.0 transforms Claude Code from an interactive assistant into a fully automated task executor. Generate intelligent execution plans with AI, then let the system automatically execute them stage-by-stage—while you focus on more important work.
 
 ---
 
-## ✨ What Makes v2.0 Special?
+## ✨ Key Features
 
 ### 🤖 AI-Generated Execution Plans
 - Claude generates **complete, structured execution plans** for your tasks
@@ -240,7 +240,6 @@ You'll get desktop notifications at key milestones!
 
 ### Quick Start
 - **[Getting Started](docs/GETTING_STARTED.md)** - 5-minute quick start guide ([中文](docs/GETTING_STARTED_CN.md))
-- **[Quick Start Guide](docs/QUICK_START.md)** - Detailed 10-minute walkthrough
 
 ### Core Documentation
 - **[Core Concepts](docs/CORE_CONCEPTS.md)** - Understand execution plans, architectures, and workflows ([中文](docs/CORE_CONCEPTS_CN.md))
@@ -466,7 +465,7 @@ ccautorun init --dangerously-skip-permissions
 
 ## 🧪 Testing
 
-ccAutoRun v2.0 has comprehensive test coverage:
+ccAutoRun has comprehensive test coverage:
 
 ```bash
 # Run all tests
@@ -493,7 +492,7 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 ### Development Setup
 
 ```bash
-git clone https://github.com/yourusername/ccautorun.git
+git clone https://github.com/Octo-o-o-o/ccAutoRun.git
 cd ccautorun
 npm install
 npm test
@@ -530,47 +529,22 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ## 📞 Support
 
 - **Documentation**: [docs/](docs/)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/ccautorun/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/ccautorun/discussions)
-
----
-
-## 🌟 What's New in v2.0?
-
-### vs v1.0 (PowerShell/Bash Scripts)
-
-- ✅ **Pure Node.js**: True cross-platform consistency
-- ✅ **AI Plan Generation**: No more manual plan writing
-- ✅ **Dual Architecture**: Automatic or manual choice
-- ✅ **Rich CLI**: 15+ commands for full control
-- ✅ **Error Recovery**: Retry, skip, or rollback
-- ✅ **Production Ready**: 95+ tests, 73%+ coverage
-- ✅ **Better UX**: Progress bars, notifications, real-time monitoring
-
-### Key Improvements
-
-| Feature | v1.0 | v2.0 |
-|---------|------|------|
-| Plan Generation | Manual | AI-Generated |
-| Architecture | Single only | Dual (split/single) |
-| Cross-Platform | Scripts (PS/Bash) | Pure Node.js |
-| Commands | 3 | 15+ |
-| Error Handling | Basic | Advanced (retry/rollback) |
-| Testing | None | 95+ tests, 73% coverage |
-| Real-Time Monitoring | No | Yes (watch command) |
-| Configuration | Manual | Validated YAML |
+- **Issues**: [GitHub Issues](https://github.com/Octo-o-o-o/ccAutoRun/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Octo-o-o-o/ccAutoRun/discussions)
 
 ---
 
 ## 🗺️ Roadmap
 
-### v2.1 (Future)
+### Future Versions
 
 - **Multi-Task Parallel Execution**: Run multiple plans simultaneously
 - **Plugin System**: Extend with custom hooks and integrations
 - **Cloud Sync**: Backup and share plans across devices
 - **Web Dashboard**: Visual progress tracking and plan management
 - **Team Collaboration**: Shared plans and execution
+- **Enhanced Error Recovery**: More recovery strategies
+- **Performance Optimizations**: Faster execution and lower memory usage
 
 ---
 

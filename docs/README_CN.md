@@ -1,4 +1,4 @@
-# ccAutoRun v2.0 文档
+# ccAutoRun v0.1.0 文档
 
 > ccAutoRun 的完整文档 - 为 Claude Code 提供的 AI 驱动任务自动化工具
 
@@ -107,7 +107,7 @@
 
 ## 📖 文档路线图
 
-### 当前 (v2.0)
+### 当前 (v0.1.0)
 
 - ✅ 快速开始指南
 - ✅ 核心概念
@@ -164,8 +164,8 @@
 
 ## 📞 获取帮助
 
-- **问题**: [报告 Bug 或请求功能](https://github.com/yourusername/ccautorun/issues)
-- **讨论**: [提问或分享想法](https://github.com/yourusername/ccautorun/discussions)
+- **问题**: [报告 Bug 或请求功能](https://github.com/Octo-o-o-o/ccAutoRun/issues)
+- **讨论**: [提问或分享想法](https://github.com/Octo-o-o-o/ccAutoRun/discussions)
 - **Discord**: [加入我们的社区](#) (即将推出)
 
 ---

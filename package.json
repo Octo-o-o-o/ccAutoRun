@@ -1,6 +1,6 @@
 {
   "name": "ccautorun",
-  "version": "2.0.0",
+  "version": "0.1.0",
   "description": "AI-powered task automation for Claude Code - Transform complex development tasks into self-executing workflows",
   "type": "module",
   "main": "src/cli.js",
@@ -40,12 +40,12 @@
   ],
   "author": {
     "name": "ccAutoRun Team",
-    "url": "https://github.com/yourusername/ccautorun"
+    "url": "https://github.com/Octo-o-o-o/ccAutoRun"
   },
   "contributors": [
     {
       "name": "Community Contributors",
-      "url": "https://github.com/yourusername/ccautorun/graphs/contributors"
+      "url": "https://github.com/Octo-o-o-o/ccAutoRun/graphs/contributors"
     }
   ],
   "license": "MIT",
@@ -73,12 +73,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/ccautorun.git"
+    "url": "git+https://github.com/Octo-o-o-o/ccAutoRun.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/ccautorun/issues"
+    "url": "https://github.com/Octo-o-o-o/ccAutoRun/issues"
   },
-  "homepage": "https://github.com/yourusername/ccautorun#readme",
+  "homepage": "https://github.com/Octo-o-o-o/ccAutoRun#readme",
   "files": [
     "src/",
     "bin/",
@@ -88,12 +88,21 @@
     "LICENSE",
     "CHANGELOG.md",
     "CONTRIBUTING.md",
-    "docs/QUICKSTART.md",
-    "docs/GUIDE.md",
+    "docs/README.md",
+    "docs/README_CN.md",
+    "docs/GETTING_STARTED.md",
+    "docs/GETTING_STARTED_CN.md",
+    "docs/CORE_CONCEPTS.md",
+    "docs/CORE_CONCEPTS_CN.md",
+    "docs/COMMAND_REFERENCE.md",
+    "docs/COMMAND_REFERENCE_CN.md",
+    "docs/CONFIGURATION.md",
+    "docs/CONFIGURATION_CN.md",
+    "docs/BEST_PRACTICES.md",
+    "docs/BEST_PRACTICES_CN.md",
     "docs/TEMPLATES.md",
     "docs/FAQ.md",
     "docs/TROUBLESHOOTING.md",
-    "docs/EXAMPLES.md",
     "docs/TESTING.md"
   ],
   "preferGlobal": true,

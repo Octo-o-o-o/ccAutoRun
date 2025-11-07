@@ -1,8 +1,8 @@
-# Getting Started with ccAutoRun v2.0
+# Getting Started with ccAutoRun v0.1.0
 
 > Get up and running with ccAutoRun in 5 minutes
 
-[中文版本](./GETTING_STARTED_CN.md) | [Complete User Guide](./USER_GUIDE.md)
+[中文版本](./GETTING_STARTED_CN.md)
 
 ---
 

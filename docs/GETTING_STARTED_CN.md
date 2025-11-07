@@ -1,8 +1,8 @@
-# ccAutoRun v2.0 快速开始
+# ccAutoRun v0.1.0 快速开始
 
 > 5分钟快速上手 ccAutoRun
 
-[English Version](./GETTING_STARTED.md) | [完整用户指南](./USER_GUIDE_CN.md)
+[English Version](./GETTING_STARTED.md)
 
 ---
 

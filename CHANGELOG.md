@@ -5,11 +5,11 @@ All notable changes to ccAutoRun will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - 2025-11-07
+## [0.1.0] - 2025-01-07
 
-### 🎉 Major Release - Complete Rewrite
+### 🎉 Initial Public Release
 
-ccAutoRun v2.0 is a ground-up rewrite transforming the tool from a script-based automation system into a full-featured, AI-powered task automation platform.
+ccAutoRun v0.1.0 is an AI-powered task automation tool for Claude Code that transforms complex development tasks into self-executing workflows.
 
 ### Added
 
@@ -163,36 +163,9 @@ ccAutoRun v2.0 is a ground-up rewrite transforming the tool from a script-based 
 
 ---
 
-## [1.0.0] - 2025-01-06
-
-### Added
-- 🎉 Initial release of ccAutoRun
-- ✨ Automatic batch continuation using `/clear` command
-- 🛡️ Safety mechanism with 3-batch limit
-- 🔔 Desktop notification system (Windows + Unix)
-- 🔊 Sound alerts on batch completion
-- 📊 Real-time progress tracking and monitoring
-- 🖥️ Cross-platform support (Windows, macOS, Linux)
-- 📝 Comprehensive documentation (20,000+ words)
-- 🧪 System test script
-- 💻 PowerShell scripts for Windows
-- 🐚 Bash scripts for Unix/Linux/macOS
-- 📦 Node.js automation script
-
-### Features
-- **Auto-continuation logic** in slash command
-- **Session counter** with lock file mechanism
-- **Background monitoring** mode
-- **Progress statistics** and visualization
-- **File verification** system
-- **Batch size configuration**
-- **Safety limits** to prevent infinite loops
-
----
-
 ## [Unreleased]
 
-### Planned for v2.1
+### Planned for Future Versions
 - **Multi-task parallel execution** - Run multiple plans simultaneously
 - **Plugin system** - Custom hooks and integrations
 - **Cloud sync** - Backup and share plans across devices
@@ -210,76 +183,6 @@ ccAutoRun v2.0 is a ground-up rewrite transforming the tool from a script-based 
 
 ---
 
-## Migration Guide: v1.0 → v2.0
-
-### Breaking Changes
-
-1. **Installation method changed:**
-   ```bash
-   # v1.0: Copy scripts manually
-   cp -r ccAutoRun/.claude /your/project/
-
-   # v2.0: npm install
-   npm install -g ccautorun
-   ```
-
-2. **Configuration format changed:**
-   ```bash
-   # v1.0: .claude/hooks/.auto-continue.lock
-   # v2.0: .ccautorun/config.yaml
-   ```
-
-3. **Plan structure changed:**
-   ```bash
-   # v1.0: Manual .md files
-   # v2.0: AI-generated plans in .ccautorun/plans/
-   ```
-
-### Migration Steps
-
-1. **Install v2.0:**
-   ```bash
-   npm install -g ccautorun
-   ```
-
-2. **Initialize in your project:**
-   ```bash
-   cd /your/project
-   ccautorun init --setup-hooks
-   ```
-
-3. **Migrate configuration (if needed):**
-   ```bash
-   ccautorun migrate
-   ```
-
-4. **Generate new plans with AI:**
-   ```
-   /plan <your task description>
-   ```
-
-**Note:** v1.0 scripts are no longer supported. All automation now runs through the Node.js CLI.
-
----
-
-## Comparison: v1.0 vs v2.0
-
-| Feature | v1.0 | v2.0 |
-|---------|------|------|
-| **Installation** | Manual script copy | npm install |
-| **Platform** | PS/Bash scripts | Pure Node.js |
-| **Plan Generation** | Manual | AI-powered |
-| **Architectures** | Single only | Dual (split/single) |
-| **Commands** | 3 scripts | 19 CLI commands |
-| **Error Recovery** | Manual | 4 automated strategies |
-| **Testing** | None | 95+ tests, 73% coverage |
-| **Configuration** | Lock files | Validated YAML |
-| **Monitoring** | Basic | Real-time with watch |
-| **Safety** | Basic limits | Sandbox + snapshots |
-| **Documentation** | English | Bilingual (EN + CN) |
-
----
-
 **Legend:**
 - `Added` - New features
 - `Changed` - Changes to existing functionality
@@ -291,4 +194,4 @@ ccAutoRun v2.0 is a ground-up rewrite transforming the tool from a script-based 
 
 ---
 
-For detailed information about each release, see the [GitHub Releases](https://github.com/yourusername/ccautorun/releases) page.
+For detailed information about each release, see the [GitHub Releases](https://github.com/Octo-o-o-o/ccAutoRun/releases) page.
