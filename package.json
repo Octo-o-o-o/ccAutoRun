@@ -18,7 +18,7 @@
     "test:performance": "vitest run tests/performance",
     "test:all": "vitest run && npm run test:e2e && npm run test:performance",
     "lint": "eslint src/",
-    "prepare": "chmod +x bin/ccautorun.js",
+    "prepare": "node -e \"try { require('fs').chmodSync('bin/ccautorun.js', '755') } catch(e) { /* Windows doesn't need this */ }\"",
     "prepublishOnly": "npm test && npm run lint"
   },
   "keywords": [
