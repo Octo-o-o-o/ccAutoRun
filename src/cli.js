@@ -10,6 +10,14 @@ import chalk from 'chalk';
 import { init } from './commands/init.js';
 import { list } from './commands/list.js';
 import { status } from './commands/status.js';
+import { doctor } from './commands/doctor.js';
+import { config } from './commands/config.js';
+import { pause } from './commands/pause.js';
+import { resume } from './commands/resume.js';
+import { logs } from './commands/logs.js';
+import { skip } from './commands/skip.js';
+import { retry } from './commands/retry.js';
+import { stats } from './commands/stats.js';
 import { initLogger } from './utils/logger.js';
 import { ErrorHandler } from './utils/error-handler.js';
 import { readFile } from 'fs/promises';
@@ -105,18 +113,168 @@ export default async function main() {
       }
     });
 
-  // Doctor command (placeholder)
+  // Doctor command
   program
     .command('doctor')
     .description('Check system requirements and configuration')
     .option('--fix', 'Automatically fix common issues')
     .action(async (options) => {
-      console.log(chalk.yellow('Doctor command - Coming in next update'));
-      console.log(chalk.gray('This will check:'));
-      console.log(chalk.gray('  - Node.js version'));
-      console.log(chalk.gray('  - Claude CLI installation'));
-      console.log(chalk.gray('  - Hook configuration'));
-      console.log(chalk.gray('  - Project setup'));
+      try {
+        const globalOpts = program.opts();
+        await doctor({ ...options, dryRun: globalOpts.dryRun });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'doctor',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
+  // Config command
+  program
+    .command('config')
+    .description('Manage ccAutoRun configuration')
+    .option('--list', 'List all configuration')
+    .option('--get <key>', 'Get configuration value (supports nested keys like "notifications.enabled")')
+    .option('--set <key> <value>', 'Set configuration value (e.g., --set editor vim)')
+    .action(async (options) => {
+      try {
+        const globalOpts = program.opts();
+
+        // Handle --set which takes two arguments
+        let processedOptions = { ...options, dryRun: globalOpts.dryRun };
+
+        // If --set is an array, it means we got both key and value
+        if (Array.isArray(options.set)) {
+          processedOptions.set = options.set[0];
+          processedOptions.setValue = options.set[1];
+        }
+
+        await config(processedOptions);
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'config',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
+  // Pause command
+  program
+    .command('pause')
+    .description('Pause a running plan')
+    .argument('<plan-id>', 'Plan ID or name to pause')
+    .action(async (planId, options) => {
+      try {
+        const globalOpts = program.opts();
+        await pause(planId, { ...options, dryRun: globalOpts.dryRun });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'pause',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
+  // Resume command
+  program
+    .command('resume')
+    .description('Resume a paused plan')
+    .argument('<plan-id>', 'Plan ID or name to resume')
+    .action(async (planId, options) => {
+      try {
+        const globalOpts = program.opts();
+        await resume(planId, { ...options, dryRun: globalOpts.dryRun });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'resume',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
+  // Logs command
+  program
+    .command('logs')
+    .description('View plan execution logs')
+    .argument('<plan-id>', 'Plan ID or name')
+    .option('--tail <number>', 'Show only last N lines', parseInt)
+    .option('--follow', 'Follow log output (like tail -f)')
+    .option('--level <level>', 'Filter by log level (error, warn, info, debug)')
+    .action(async (planId, options) => {
+      try {
+        const globalOpts = program.opts();
+        await logs(planId, { ...options, dryRun: globalOpts.dryRun });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'logs',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
+  // Skip command
+  program
+    .command('skip')
+    .description('Skip a stage in a plan')
+    .argument('<plan-id>', 'Plan ID or name')
+    .argument('<stage-number>', 'Stage number to skip')
+    .option('--reason <reason>', 'Reason for skipping')
+    .action(async (planId, stageNumber, options) => {
+      try {
+        const globalOpts = program.opts();
+        await skip(planId, stageNumber, { ...options, dryRun: globalOpts.dryRun });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'skip',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
+  // Retry command
+  program
+    .command('retry')
+    .description('Retry a failed stage or plan')
+    .argument('<plan-id>', 'Plan ID or name')
+    .argument('[stage-number]', 'Stage number to retry (default: current stage)')
+    .option('--reset-count', 'Reset session count')
+    .action(async (planId, stageNumber, options) => {
+      try {
+        const globalOpts = program.opts();
+        await retry(planId, stageNumber, { ...options, dryRun: globalOpts.dryRun });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'retry',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
+  // Stats command
+  program
+    .command('stats')
+    .description('Display statistics about plans')
+    .option('--task <plan-id>', 'Show statistics for specific plan')
+    .option('--format <format>', 'Output format (json)', 'text')
+    .action(async (options) => {
+      try {
+        const globalOpts = program.opts();
+        await stats({ ...options, dryRun: globalOpts.dryRun });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'stats',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
     });
 
   // Run command (placeholder for Stage 3)

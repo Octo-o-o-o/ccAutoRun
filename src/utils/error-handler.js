@@ -15,6 +15,7 @@ export const ErrorCodes = {
   E001: 'CONFIG_NOT_FOUND',
   E002: 'CONFIG_INVALID',
   E003: 'CONFIG_VERSION_MISMATCH',
+  E004: 'CONFIG_KEY_NOT_FOUND',
 
   // Initialization errors (E100-E199)
   E100: 'NOT_INITIALIZED',
@@ -59,6 +60,10 @@ const ErrorMessages = {
   [ErrorCodes.E002]: {
     message: 'Configuration file is invalid',
     help: 'Check your .ccautorun/config.yaml for syntax errors or run "ccautorun doctor --fix" to auto-fix',
+  },
+  [ErrorCodes.E004]: {
+    message: 'Configuration key not found',
+    help: 'Use "ccautorun config --list" to see all available configuration keys',
   },
   [ErrorCodes.E100]: {
     message: 'Project not initialized',
@@ -176,6 +181,7 @@ export const Errors = {
   alreadyInitialized: () => ErrorHandler.createError(ErrorCodes.E101),
   configNotFound: () => ErrorHandler.createError(ErrorCodes.E001),
   configInvalid: (details) => ErrorHandler.createError(ErrorCodes.E002, null, details),
+  configKeyNotFound: (key) => ErrorHandler.createError(ErrorCodes.E004, `Configuration key "${key}" not found`, { key }),
   planNotFound: (planName) => ErrorHandler.createError(ErrorCodes.E200, `Plan "${planName}" not found`, { planName }),
   claudeNotFound: () => ErrorHandler.createError(ErrorCodes.E302),
   claudeVersionTooOld: (currentVersion, requiredVersion) =>
