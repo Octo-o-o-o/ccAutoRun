@@ -14,6 +14,8 @@ import { doctor } from './commands/doctor.js';
 import { config } from './commands/config.js';
 import { pause } from './commands/pause.js';
 import { resume } from './commands/resume.js';
+import { recover } from './commands/recover.js';
+import { audit } from './commands/audit.js';
 import { logs } from './commands/logs.js';
 import { skip } from './commands/skip.js';
 import { retry } from './commands/retry.js';
@@ -250,6 +252,49 @@ export default async function main() {
       } catch (error) {
         const exitCode = ErrorHandler.handle(error, {
           command: 'resume',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
+  // Recover command
+  program
+    .command('recover')
+    .description('Recover from a failed plan execution')
+    .argument('[plan-id]', 'Plan ID or name to recover (auto-detect if omitted)')
+    .option('--strategy <strategy>', 'Recovery strategy: retry|skip|rollback|abort')
+    .option('--stage <number>', 'Target stage for rollback', parseInt)
+    .option('--reason <reason>', 'Reason for skip/abort')
+    .option('--interactive', 'Interactive mode (default: true)', true)
+    .option('--no-interactive', 'Non-interactive mode')
+    .action(async (planId, options) => {
+      try {
+        const globalOpts = program.opts();
+        await recover(planId, { ...options, dryRun: globalOpts.dryRun });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'recover',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
+  // Audit command
+  program
+    .command('audit')
+    .description('Run security audit (dependencies, sensitive files, command security)')
+    .option('--report <format>', 'Report format: text|json|html', 'text')
+    .option('--output <file>', 'Output report to file')
+    .option('--fix', 'Automatically fix vulnerabilities (npm audit fix)')
+    .action(async (options) => {
+      try {
+        const globalOpts = program.opts();
+        await audit({ ...options, dryRun: globalOpts.dryRun });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'audit',
           verbose: program.opts().verbose,
         });
         process.exit(exitCode);
