@@ -18,6 +18,8 @@ import { logs } from './commands/logs.js';
 import { skip } from './commands/skip.js';
 import { retry } from './commands/retry.js';
 import { stats } from './commands/stats.js';
+import { triggerCommand } from './commands/trigger.js';
+import { resetCommand } from './commands/reset.js';
 import { initLogger } from './utils/logger.js';
 import { ErrorHandler } from './utils/error-handler.js';
 import { readFile } from 'fs/promises';
@@ -271,6 +273,47 @@ export default async function main() {
       } catch (error) {
         const exitCode = ErrorHandler.handle(error, {
           command: 'stats',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
+  // Trigger command
+  program
+    .command('trigger')
+    .description('Manually trigger next stage continuation')
+    .argument('<task-name>', 'Task name or plan path')
+    .option('--resume', 'Resume existing Claude session')
+    .option('--force', 'Force trigger even if paused or failed')
+    .option('--skip-limit', 'Skip safety limit check')
+    .action(async (taskName, options) => {
+      try {
+        const globalOpts = program.opts();
+        await triggerCommand(taskName, { ...options, dryRun: globalOpts.dryRun });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'trigger',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
+  // Reset command
+  program
+    .command('reset')
+    .description('Reset session state')
+    .argument('<task-name>', 'Task name to reset')
+    .option('--stage <number>', 'Reset to specific stage')
+    .option('-y, --yes', 'Skip confirmation')
+    .action(async (taskName, options) => {
+      try {
+        const globalOpts = program.opts();
+        await resetCommand(taskName, { ...options, dryRun: globalOpts.dryRun });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'reset',
           verbose: program.opts().verbose,
         });
         process.exit(exitCode);
