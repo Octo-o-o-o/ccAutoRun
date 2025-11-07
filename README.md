@@ -54,6 +54,89 @@ ccAutoRun v2.0 transforms Claude Code from an interactive assistant into a fully
 
 ## 🚀 Quick Start (5 Minutes)
 
+### Prerequisites
+
+**Required:**
+- Node.js >= 18.0.0 (Recommended: 20.x LTS or 21.x)
+- npm >= 8.0.0
+- Claude Code CLI installed and configured
+
+**Platform-Specific:**
+
+<details>
+<summary><b>🍎 macOS</b></summary>
+
+```bash
+# Check Node.js version
+node --version  # Should be >= 18.0.0
+
+# Install Claude Code if not already installed
+# Follow: https://docs.anthropic.com/claude-code
+
+# Install ccAutoRun
+npm install -g ccautorun
+```
+
+**Note**: On Apple Silicon (M1/M2/M3), Node.js runs natively - no Rosetta needed.
+</details>
+
+<details>
+<summary><b>🪟 Windows</b></summary>
+
+```powershell
+# Check Node.js version (PowerShell or cmd.exe)
+node --version  # Should be >= 18.0.0
+
+# Install Claude Code if not already installed
+# Follow: https://docs.anthropic.com/claude-code
+
+# Install ccAutoRun
+npm install -g ccautorun
+```
+
+**PowerShell Execution Policy**: If you encounter errors, you may need to adjust execution policy:
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+**Path Issues**: After installation, restart your terminal to ensure `ccautorun` is in PATH.
+</details>
+
+<details>
+<summary><b>🐧 Linux</b></summary>
+
+```bash
+# Check Node.js version
+node --version  # Should be >= 18.0.0
+
+# If Node.js not installed or outdated:
+# Ubuntu/Debian:
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# CentOS/RHEL/Fedora:
+curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
+sudo yum install -y nodejs
+
+# Install Claude Code if not already installed
+# Follow: https://docs.anthropic.com/claude-code
+
+# Install ccAutoRun
+sudo npm install -g ccautorun
+```
+
+**Permissions**: If you get EACCES errors, either:
+1. Use `sudo` (above), OR
+2. Configure npm to install globally without sudo:
+   ```bash
+   mkdir ~/.npm-global
+   npm config set prefix '~/.npm-global'
+   echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+   source ~/.bashrc
+   npm install -g ccautorun
+   ```
+</details>
+
 ### Installation
 
 ```bash
@@ -62,16 +145,43 @@ npm install -g ccautorun
 
 ### First-Time Setup
 
+#### All Platforms
+
 ```bash
-# Initialize in your project
+# Navigate to your project
 cd /path/to/your/project
+
+# Initialize with automatic hook setup (recommended)
 ccautorun init --setup-hooks
 
 # This will:
 # ✓ Create .ccautorun/ directory
-# ✓ Configure Claude Code hooks
+# ✓ Configure Claude Code hooks (.claude/hooks/)
 # ✓ Set up default configuration
 # ✓ You're ready to go!
+```
+
+#### Platform-Specific Notes
+
+**macOS/Linux:**
+```bash
+# Hooks are automatically made executable
+# Location: .claude/hooks/check-and-continue.sh
+
+# Verify hooks are working:
+ccautorun doctor
+```
+
+**Windows:**
+```powershell
+# Hooks use PowerShell scripts
+# Location: .claude/hooks/auto-continue.ps1
+
+# Verify hooks are working:
+ccautorun doctor
+
+# If hooks don't work, ensure PowerShell scripts can execute:
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
 ### Generate Your First Plan

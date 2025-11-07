@@ -186,7 +186,7 @@ export default async function main() {
         const globalOpts = program.opts();
 
         // Handle --set which takes two arguments
-        let processedOptions = { ...options, dryRun: globalOpts.dryRun };
+        const processedOptions = { ...options, dryRun: globalOpts.dryRun };
 
         // If --set is an array, it means we got both key and value
         if (Array.isArray(options.set)) {

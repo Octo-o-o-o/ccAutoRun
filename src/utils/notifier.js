@@ -8,7 +8,9 @@ import notifier from 'node-notifier';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { Config } from './config.js';
-import { logger } from './logger.js';
+import { getLogger } from './logger.js';
+
+const logger = getLogger();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

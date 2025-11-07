@@ -10,7 +10,9 @@ import path from 'path';
 import os from 'os';
 import { readSession, deleteSession } from '../core/session-manager.js';
 import { detectArchitecture } from '../core/plan-parser.js';
-import { logger } from '../utils/logger.js';
+import { getLogger } from '../utils/logger.js';
+
+const logger = getLogger();
 
 /**
  * Get .ccautorun directory path

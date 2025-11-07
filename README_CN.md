@@ -54,6 +54,89 @@ ccAutoRun v2.0 将 Claude Code 从交互式助手升级为全自动任务执行�
 
 ## 🚀 快速开始(5 分钟)
 
+### 环境要求
+
+**必需：**
+- Node.js >= 18.0.0（推荐：20.x LTS 或 21.x）
+- npm >= 8.0.0
+- 已安装并配置 Claude Code CLI
+
+**平台说明：**
+
+<details>
+<summary><b>🍎 macOS</b></summary>
+
+```bash
+# 检查 Node.js 版本
+node --version  # 应该 >= 18.0.0
+
+# 如果未安装 Claude Code，请先安装
+# 参考：https://docs.anthropic.com/claude-code
+
+# 安装 ccAutoRun
+npm install -g ccautorun
+```
+
+**注意**：在 Apple Silicon（M1/M2/M3）上，Node.js 原生运行，无需 Rosetta。
+</details>
+
+<details>
+<summary><b>🪟 Windows</b></summary>
+
+```powershell
+# 检查 Node.js 版本（PowerShell 或 cmd.exe）
+node --version  # 应该 >= 18.0.0
+
+# 如果未安装 Claude Code，请先安装
+# 参考：https://docs.anthropic.com/claude-code
+
+# 安装 ccAutoRun
+npm install -g ccautorun
+```
+
+**PowerShell 执行策略**：如果遇到错误，可能需要调整执行策略：
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+**路径问题**：安装后，重启终端以确保 `ccautorun` 在 PATH 中。
+</details>
+
+<details>
+<summary><b>🐧 Linux</b></summary>
+
+```bash
+# 检查 Node.js 版本
+node --version  # 应该 >= 18.0.0
+
+# 如果未安装或版本过旧：
+# Ubuntu/Debian：
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# CentOS/RHEL/Fedora：
+curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
+sudo yum install -y nodejs
+
+# 如果未安装 Claude Code，请先安装
+# 参考：https://docs.anthropic.com/claude-code
+
+# 安装 ccAutoRun
+sudo npm install -g ccautorun
+```
+
+**权限问题**：如果遇到 EACCES 错误，可以：
+1. 使用 `sudo`（如上），或
+2. 配置 npm 全局安装不需要 sudo：
+   ```bash
+   mkdir ~/.npm-global
+   npm config set prefix '~/.npm-global'
+   echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+   source ~/.bashrc
+   npm install -g ccautorun
+   ```
+</details>
+
 ### 安装
 
 ```bash
@@ -62,16 +145,43 @@ npm install -g ccautorun
 
 ### 首次设置
 
+#### 所有平台
+
 ```bash
 # 在项目中初始化
 cd /path/to/your/project
+
+# 初始化并自动配置 hooks（推荐）
 ccautorun init --setup-hooks
 
 # 这会:
 # ✓ 创建 .ccautorun/ 目录
-# ✓ 配置 Claude Code hooks
+# ✓ 配置 Claude Code hooks（.claude/hooks/）
 # ✓ 设置默认配置
 # ✓ 你就可以开始了!
+```
+
+#### 平台特定说明
+
+**macOS/Linux：**
+```bash
+# Hooks 会自动设置为可执行
+# 位置：.claude/hooks/check-and-continue.sh
+
+# 验证 hooks 是否工作：
+ccautorun doctor
+```
+
+**Windows：**
+```powershell
+# Hooks 使用 PowerShell 脚本
+# 位置：.claude/hooks/auto-continue.ps1
+
+# 验证 hooks 是否工作：
+ccautorun doctor
+
+# 如果 hooks 不工作，确保 PowerShell 脚本可以执行：
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
 ### 生成第一个计划

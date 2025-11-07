@@ -10,7 +10,9 @@ import path from 'path';
 import os from 'os';
 import { readSession } from '../core/session-manager.js';
 import { getNotifier } from '../utils/notifier.js';
-import { logger } from '../utils/logger.js';
+import { getLogger } from '../utils/logger.js';
+
+const logger = getLogger();
 
 /**
  * Format duration in human-readable format

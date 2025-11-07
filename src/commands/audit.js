@@ -371,7 +371,7 @@ async function checkAuditLog() {
  * Generate text report
  */
 function generateTextReport(auditResult) {
-  let report = [];
+  const report = [];
 
   report.push(chalk.bold('\n📋 Security Audit Report'));
   report.push(chalk.gray('─'.repeat(60)));

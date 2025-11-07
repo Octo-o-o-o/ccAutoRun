@@ -8,7 +8,9 @@ import chalk from 'chalk';
 import fs from 'fs/promises';
 import path from 'path';
 import { Config } from '../utils/config.js';
-import { logger } from '../utils/logger.js';
+import { getLogger } from '../utils/logger.js';
+
+const logger = getLogger();
 import { ConfigValidator } from '../utils/config-validator.js';
 
 /**
