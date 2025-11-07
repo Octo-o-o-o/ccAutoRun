@@ -1,0 +1,68 @@
+name: refactor
+description: Refactor existing code to improve structure and maintainability
+architecture: split  # Recommended architecture
+
+# Stage templates for refactoring tasks
+stages:
+  - name: Analysis and Preparation
+    description: Analyze current code, identify issues and refactoring goals
+    estimated_lines: 800
+    tasks:
+      - Review existing codebase
+      - Identify code smells and technical debt
+      - Document current architecture
+      - Define refactoring objectives
+
+  - name: Design Refactoring Approach
+    description: Design the refactored architecture and migration strategy
+    estimated_lines: 900
+    tasks:
+      - Design target architecture
+      - Plan refactoring steps
+      - Identify breaking changes
+      - Design migration path
+
+  - name: Implementation
+    description: Implement refactoring changes incrementally
+    estimated_lines: 1000
+    tasks:
+      - Refactor core modules
+      - Update dependencies
+      - Maintain backward compatibility
+      - Document changes
+
+  - name: Testing and Validation
+    description: Ensure refactored code works correctly
+    estimated_lines: 750
+    tasks:
+      - Write/update unit tests
+      - Run integration tests
+      - Performance testing
+      - Code review
+
+  - name: Documentation and Cleanup
+    description: Update documentation and clean up
+    estimated_lines: 650
+    tasks:
+      - Update API documentation
+      - Update architecture diagrams
+      - Clean up deprecated code
+      - Update CHANGELOG
+
+# Questions to ask the user during plan generation
+prompts:
+  - "Which modules or components need refactoring?"
+  - "What are the main pain points or technical debt in the current code?"
+  - "What's the desired architecture after refactoring?"
+  - "Are there any performance or scalability goals?"
+  - "Do you need to maintain backward compatibility?"
+  - "What's the current test coverage, and do you want to improve it?"
+
+# Additional metadata
+tags:
+  - refactoring
+  - code-quality
+  - technical-debt
+
+estimated_time: "12-18h"
+complexity: medium-high

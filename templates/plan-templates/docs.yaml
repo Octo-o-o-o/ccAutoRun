@@ -1,0 +1,76 @@
+name: docs
+description: Generate or update documentation
+architecture: auto  # Auto-select based on documentation scope (simple -> single, complex -> split)
+
+# Stage templates for documentation tasks
+stages:
+  - name: Documentation Planning
+    description: Plan the documentation structure and scope
+    estimated_lines: 600
+    tasks:
+      - Define documentation scope
+      - Identify target audience
+      - Plan documentation structure
+      - Review existing documentation
+      - Define style guide
+
+  - name: Content Creation
+    description: Write the main documentation content
+    estimated_lines: 850
+    tasks:
+      - Write README.md
+      - Write API documentation
+      - Write user guides
+      - Write tutorials
+      - Add code examples
+
+  - name: Code Documentation
+    description: Add code comments and inline documentation
+    estimated_lines: 700
+    tasks:
+      - Add JSDoc/docstrings
+      - Add inline comments
+      - Document complex logic
+      - Document API contracts
+      - Document edge cases
+
+  - name: Visual Content
+    description: Create diagrams and visual aids (if needed)
+    estimated_lines: 650
+    tasks:
+      - Create architecture diagrams
+      - Create flow charts
+      - Create screenshots
+      - Create video tutorials (if needed)
+      - Add visual examples
+
+  - name: Review and Polish
+    description: Review, proofread, and finalize documentation
+    estimated_lines: 550
+    tasks:
+      - Proofread all documentation
+      - Check for broken links
+      - Ensure consistency
+      - Get feedback from users
+      - Publish documentation
+
+# Questions to ask the user during plan generation
+prompts:
+  - "What type of documentation do you need? (API, User Guide, Architecture, etc.)"
+  - "Who is the target audience? (Developers, End Users, Contributors)"
+  - "Is this new documentation or updating existing?"
+  - "What areas of the codebase need documentation?"
+  - "Do you need diagrams or visual aids?"
+  - "What's the preferred documentation format? (Markdown, JSDoc, etc.)"
+  - "Are there any specific sections that need priority?"
+
+# Additional metadata
+tags:
+  - documentation
+  - knowledge-sharing
+
+estimated_time: "8-12h"
+complexity: low-medium
+
+# Note: For simple docs (1-2 sections, < 2000 lines), architecture will be set to 'single'
+# For comprehensive docs (multiple sections, >= 2000 lines), architecture will be set to 'split'

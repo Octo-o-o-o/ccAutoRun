@@ -1,0 +1,73 @@
+name: feature
+description: Develop a new feature from scratch
+architecture: split  # Recommended architecture
+
+# Stage templates for feature development
+stages:
+  - name: Requirements and Design
+    description: Define requirements and design the feature
+    estimated_lines: 850
+    tasks:
+      - Gather and document requirements
+      - Design data models
+      - Design API contracts
+      - Design UI/UX (if applicable)
+      - Create technical specification
+
+  - name: Core Implementation
+    description: Implement the core feature logic
+    estimated_lines: 950
+    tasks:
+      - Implement data models
+      - Implement business logic
+      - Implement API endpoints
+      - Handle edge cases
+      - Add input validation
+
+  - name: UI Implementation
+    description: Implement user interface (if applicable)
+    estimated_lines: 900
+    tasks:
+      - Create UI components
+      - Implement state management
+      - Integrate with API
+      - Add error handling
+      - Implement responsive design
+
+  - name: Testing
+    description: Write comprehensive tests
+    estimated_lines: 800
+    tasks:
+      - Write unit tests
+      - Write integration tests
+      - Write E2E tests (if applicable)
+      - Test edge cases
+      - Ensure test coverage > 80%
+
+  - name: Documentation and Polish
+    description: Document the feature and polish implementation
+    estimated_lines: 700
+    tasks:
+      - Write API documentation
+      - Write user documentation
+      - Add code comments
+      - Update CHANGELOG
+      - Final code review
+
+# Questions to ask the user during plan generation
+prompts:
+  - "What is the main purpose of this feature?"
+  - "Who are the target users of this feature?"
+  - "Are there any specific requirements or constraints?"
+  - "Does this feature require API changes?"
+  - "Does this feature require UI changes?"
+  - "What are the acceptance criteria?"
+  - "Are there any dependencies on other features or systems?"
+
+# Additional metadata
+tags:
+  - feature-development
+  - new-functionality
+
+estimated_time: "16-24h"
+complexity: medium-high

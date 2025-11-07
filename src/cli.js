@@ -20,6 +20,7 @@ import { retry } from './commands/retry.js';
 import { stats } from './commands/stats.js';
 import { triggerCommand } from './commands/trigger.js';
 import { resetCommand } from './commands/reset.js';
+import { validate } from './commands/validate.js';
 import { initLogger } from './utils/logger.js';
 import { ErrorHandler } from './utils/error-handler.js';
 import { readFile } from 'fs/promises';
@@ -314,6 +315,24 @@ export default async function main() {
       } catch (error) {
         const exitCode = ErrorHandler.handle(error, {
           command: 'reset',
+          verbose: program.opts().verbose,
+        });
+        process.exit(exitCode);
+      }
+    });
+
+  // Validate command
+  program
+    .command('validate')
+    .description('Validate execution plan format and structure')
+    .argument('<task-name>', 'Task name or plan to validate')
+    .action(async (taskName, options) => {
+      try {
+        const globalOpts = program.opts();
+        await validate(taskName, { ...options, dryRun: globalOpts.dryRun });
+      } catch (error) {
+        const exitCode = ErrorHandler.handle(error, {
+          command: 'validate',
           verbose: program.opts().verbose,
         });
         process.exit(exitCode);

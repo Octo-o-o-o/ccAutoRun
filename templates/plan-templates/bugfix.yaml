@@ -1,0 +1,66 @@
+name: bugfix
+description: Fix bugs and issues in existing code
+architecture: auto  # Auto-select based on bug complexity (simple bugs -> single, complex -> split)
+
+# Stage templates for bug fixing
+stages:
+  - name: Bug Analysis and Reproduction
+    description: Understand and reproduce the bug
+    estimated_lines: 650
+    tasks:
+      - Review bug report
+      - Reproduce the bug locally
+      - Identify root cause
+      - Check for related issues
+      - Document findings
+
+  - name: Fix Implementation
+    description: Implement the bug fix
+    estimated_lines: 700
+    tasks:
+      - Implement the fix
+      - Handle edge cases
+      - Ensure no regression
+      - Add defensive programming
+      - Code review
+
+  - name: Testing and Validation
+    description: Test the fix thoroughly
+    estimated_lines: 750
+    tasks:
+      - Write regression tests
+      - Test the fix
+      - Verify no side effects
+      - Test edge cases
+      - Manual testing
+
+  - name: Documentation
+    description: Document the fix and update changelog
+    estimated_lines: 500
+    tasks:
+      - Update CHANGELOG
+      - Add code comments
+      - Update documentation if needed
+      - Document root cause
+      - Document prevention measures
+
+# Questions to ask the user during plan generation
+prompts:
+  - "What is the bug you're trying to fix? (Describe the issue)"
+  - "Can you provide steps to reproduce the bug?"
+  - "What is the expected behavior?"
+  - "What is the actual behavior?"
+  - "Which part of the codebase is affected?"
+  - "Is this a critical/blocking issue?"
+  - "Are there any related issues?"
+
+# Additional metadata
+tags:
+  - bugfix
+  - maintenance
+
+estimated_time: "4-8h"
+complexity: low-medium
+
+# Note: For simple bugs (1-2 stages, < 2000 lines), architecture will be set to 'single'
+# For complex bugs (3+ stages, >= 2000 lines), architecture will be set to 'split'
