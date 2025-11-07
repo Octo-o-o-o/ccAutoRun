@@ -12,6 +12,11 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "test:e2e": "vitest run tests/e2e",
+    "test:performance": "vitest run tests/performance",
+    "test:all": "vitest run && npm run test:e2e && npm run test:performance",
     "lint": "eslint src/",
     "prepare": "chmod +x bin/ccautorun.js"
   },
